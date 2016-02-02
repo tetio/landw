@@ -1,5 +1,5 @@
 /// <reference path="../lib/phaser.d.ts" />
-/// <reference path="Board.ts"/>
+/// <reference path="Board.ts" />
 module states {
 
     export class PlayState extends Phaser.State {

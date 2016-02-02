@@ -28,6 +28,8 @@ gulp.task("compile", function () {
     return gulp.src(["src/Main.ts"])
         .pipe(tsc({
             out: "game.js",
+            target : "ES5",
+            module: "amd",
             sourceMap: true,
             emitError: true
         }))

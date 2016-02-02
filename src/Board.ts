@@ -1,5 +1,6 @@
 /// <reference path="../lib/phaser.d.ts" />
-/// <reference path="./letter.ts" />
+/// <reference path="Letter.ts" />
+
 module states {
     export class Board {
         TILES_PER_ROW = 4;

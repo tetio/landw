@@ -7,7 +7,7 @@
 class Game extends Phaser.Game {
     
     constructor() {
-        super(800, 600, Phaser.AUTO, "phaser-example", null);
+        super(800, 600, Phaser.AUTO, "Letters and Words", null);
         this.state.add("boot", new states.BootState());
         this.state.add("preload", new states.PreloadState());
         this.state.add("title", new states.TitleState());

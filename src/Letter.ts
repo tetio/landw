@@ -3,6 +3,7 @@ module states {
     export class Letter extends Phaser.Text {
 
         letter: string;
+        bd: BusinessDelegate;
 
 
         constructor(game: Phaser.Game, x: number, y: number, letter: string, font: string) {
@@ -17,11 +18,14 @@ module states {
 
             this.game.add.existing(this);
 
+            this.bd = new BusinessDelegate();
+
         }
 
         onDragStop(letter: Letter) {
-            console.log("Pos: " + letter.letter + " (" + letter.position.x + ", " + letter.position.y + ")");
-            console.log("dim: " + letter.letter + " (" + letter.width + ", " + letter.height + ")");
+            // console.log("Pos: " + letter.letter + " (" + letter.position.x + ", " + letter.position.y + ")");
+            // console.log("dim: " + letter.letter + " (" + letter.width + ", " + letter.height + ")");
+            bd.createGame();
         }
     }
 }
