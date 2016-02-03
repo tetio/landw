@@ -1,5 +1,6 @@
 /// <reference path="../lib/phaser.d.ts" />
 /// <reference path="Letter.ts" />
+/// <reference path="BusinessDelegate.ts" />
 
 module states {
     export class Board {
@@ -12,6 +13,7 @@ module states {
         font2letters = 'bold 42pt Arial';
         width: number;
         height: number;
+        bd: BusinessDelegate;
 
 
         constructor(game: Phaser.Game, letters: string[]) {
@@ -24,6 +26,8 @@ module states {
                 var y = (this.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
                 this.letters.push(this.createLetter(letters[i].toLocaleUpperCase(), x, y));
             }
+
+            this.bd = new BusinessDelegate();
         }
 
         isSpecialLetter(letter: string): boolean {

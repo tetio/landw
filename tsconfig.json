@@ -5,7 +5,12 @@
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "out": "./out/game.js",
         "sourceMap": true
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "bower_components",
+        "build",
+        "lib/libFileToExclude.d.ts"
+    ]
 }
