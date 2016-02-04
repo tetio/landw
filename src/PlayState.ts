@@ -19,7 +19,7 @@ module states {
                 'A', 'B', 'C', 'NY', 'E', 'F', 'G', 'H',]);
             this.music = this.add.audio("vso", 1, false);
 
-            this.music.play();
+//            this.music.play();
         }
 
         update() {

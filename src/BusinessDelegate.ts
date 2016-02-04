@@ -13,15 +13,9 @@ module states {
             // this.api = restful('localhost')
             //     .protocol('http')
             //     .port(6061);
-            var word = new Word();
-            word.word = "pet";
-            $.getJSON("http://localhost:6061/word/ABAC", aWord => { 
-                console.log('Word name: ' + aWord);
-                word = aWord;
-            });
 
 
-             console.log('Word name: ' + word);
+
         }
 
 
@@ -33,5 +27,13 @@ module states {
 
              console.log('Word name: ' + word);
         }
+
+        findWord(word:string, next: (Word) => void) {
+            $.getJSON("http://localhost:6061/word/"+word, aWord => {
+                console.log('aWord: ' + aWord.word);
+                next(aWord);
+            });
+        }
+
     }
 }

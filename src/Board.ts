@@ -15,6 +15,7 @@ module states {
         height: number;
         bd: BusinessDelegate;
 
+        test = false;
 
         constructor(game: Phaser.Game, letters: string[]) {
             this.game = game;
@@ -28,10 +29,24 @@ module states {
             }
 
             this.bd = new BusinessDelegate();
+
+            this.checkWord('ABAC', function(word: Word) {
+                if (word != undefined && word != null) {
+                    this.test = true;
+                } else {
+                    this.test = false
+                }
+                if (this.test && word._id != undefined && word.word != undefined)
+                    console.log("tot bé: "+word)
+                else
+                    console.log("tot malament")
+            });
+
+
         }
 
         isSpecialLetter(letter: string): boolean {
-            return (letter === 'NY' || letter === 'L·L');
+            return (letter === 'NY' || letter === 'L·L');;
         }
 
         createLetter(letter: string, x: number, y: number): Letter {
@@ -41,5 +56,13 @@ module states {
                 return new Letter(this.game, x, y, letter, this.font);
             }
         }
+
+        checkWord(word: string, next: (Word) => void) {
+            var result: boolean;
+            this.bd.findWord(word, function(word: Word) {
+                next(word);
+            });
+        }
+
     }
 }
