@@ -19,13 +19,7 @@ module states {
         }
 
 
-        createNewGame() {
-            // //localhost:6161/api/company/5627c02f93163cd447feb9b2
-            var word: String = "";
-            $.getJSON("localhost:6061/word/ABAC", aWord => { word = aWord;});
-
-
-             console.log('Word name: ' + word);
+        createNewGame(username: string, numPlayers: number, language: string = 'CA', next: (string) => void) {
         }
 
         findWord(word:string, next: (Word) => void) {
