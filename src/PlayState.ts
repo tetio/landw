@@ -33,7 +33,6 @@ module states {
             this.bd = new BusinessDelegate();
             this.board = new Board(this.game, this.boardWidth, this.boardHeight);
 
-//            this.newTrainingGame("tetio", "CA", this.callbackNewGame);
             this.newTrainingGame("tetio", "CA", this);
 
 
@@ -60,15 +59,5 @@ module states {
             });
         }
 
-        // newTrainingGame(username: string, langage: string, next: (aGame: Game) => void) {
-        //     this.bd.createNewGame(username, 1, langage, function(aGame: Game) {
-        //         next(aGame);
-        //     });
-        // }
-
-        // callbackNewGame(aGame: Game) {
-        //     this.lwGame = aGame;
-        //     this.board.setLetters(aGame.board);
-        // }
     }
 }
