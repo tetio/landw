@@ -1,5 +1,6 @@
+/// <reference path="Player.ts" />
 module states {
-/* 
+/*
             var game = {
                 'language': language,
                 'num_players': 1,
@@ -12,7 +13,7 @@ module states {
                 'doc': new Date().getTime() / 1000,
                 'players': [player]
             };
-            
+
 {
   "language": "CA",
   "num_players": 1,
@@ -47,10 +48,10 @@ module states {
     }
   ],
   "_id": "56b4bcf361173e684838697a"
-}            
- */    
-    
-    export class LWGame {
+}
+ */
+
+    export class Game {
         language: string;
         num_players: number;
         max_players: number;
@@ -59,8 +60,8 @@ module states {
         board: string[];
         seed: number;
         doc: number;
-        // player: Player[];
+        player: Player[];
         _id: string;
-        
+
     }
 }

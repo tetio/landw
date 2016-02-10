@@ -1,25 +1,30 @@
 /// <reference path="../lib/jquery.d.ts" />
 /// <reference path="Word.ts" />
-
+/// <reference path="Game.ts" />
+/// <reference path="PlayState.ts" />
 
 module states {
-
 
     export class BusinessDelegate {
 
         constructor() {
-            //     //.header('AuthToken', 'test') // set global header
-            //     //.prefixUrl('api/v1')
-            // this.api = restful('localhost')
-            //     .protocol('http')
-            //     .port(6061);
-
-
-
         }
 
-
-        createNewGame(username: string, numPlayers: number, language: string = 'CA', next: (string) => void) {
+        createNewGame(username: string, numPlayers: number, language: string = 'CA', next: (Game) => void) {
+            var data = {
+                username: username,
+                numPlayers: numPlayers,
+                language: language
+            };
+            $.ajax({
+                type: "post",
+                url: "http://localhost:6061/game",
+                data: "usermane=" + username + "&numPlayers=" + numPlayers + "&language=" + numPlayers,
+                success: aGame => {
+                    console.log('aGame: ' + aGame._id);
+                    next(aGame);
+                }
+            });
         }
 
         findWord(word:string, next: (Word) => void) {
