@@ -1,6 +1,8 @@
 /// <reference path="../lib/phaser.d.ts" />
 /// <reference path="Letter.ts" />
+/// <reference path="LetterRack.ts" />
 module states {
+
     export class Board {
         TILES_PER_ROW = 4;
         game: Phaser.Game;
@@ -9,27 +11,40 @@ module states {
         letters: Letter[];
         font = 'bold 60pt Arial';
         font2letters = 'bold 42pt Arial';
-        width: number;
-        height: number;
-
+        boardDim: Phaser.Rectangle;
+        letterRack: LetterRack;
         test = false;
 
-        constructor(game: Phaser.Game, width: number, height: number) {
+        constructor(game: Phaser.Game) {
             this.game = game;
-
-            this.width = width;
-            this.height = height;
+            this.letterRack = new LetterRack(this.game);
+            this.calculateDims();
             this.letters = [];
         }
+
+        calculateDims() {
+            var width: number;
+            var height: number;
+            if (this.game.width > this.game.height) {
+                height = this.game.height;
+            } else {
+                height = this.game.height * 2 / 3;
+            }
+            width = height;
+            this.boardDim = new Phaser.Rectangle(0, 0, width, height);
+            this.letterRack.setDim(new Phaser.Rectangle(0, height, width, this.game.height / 3));
+        }
+
         setLetters(letters: string[]) {
             for (var i = 0; i < letters.length; i++) {
-                var x = (this.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW) + (this.width / this.TILES_PER_ROW) / 2;
-                var y = (this.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
+                var x = (this.boardDim.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW) + (this.boardDim.width / this.TILES_PER_ROW) / 2;
+                var y = (this.boardDim.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
                 this.letters.push(this.createLetter(letters[i].toLocaleUpperCase(), x, y));
             }
         }
+
         isSpecialLetter(letter: string): boolean {
-            return (letter === 'NY' || letter === 'L·L');;
+            return (letter === 'NY' || letter === 'L·L');
         }
 
         createLetter(letter: string, x: number, y: number): Letter {

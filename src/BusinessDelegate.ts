@@ -6,7 +6,6 @@
 module states {
 
     export class BusinessDelegate {
-
         constructor() {
         }
 
