@@ -3,6 +3,7 @@
 /// <reference path="PreloadState.ts" />
 /// <reference path="TitleState.ts" />
 /// <reference path="PlayState.ts" />
+/// <reference path="../lib/SaveCPU.d.ts" />
 
 class Game extends Phaser.Game {
 
