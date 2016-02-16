@@ -39,7 +39,7 @@ module states {
             for (var i = 0; i < letters.length; i++) {
                 var x = (this.boardDim.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW) + (this.boardDim.width / this.TILES_PER_ROW) / 2;
                 var y = (this.boardDim.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
-                this.letters.push(this.createLetter(letters[i].toLocaleUpperCase(), x, y));
+                this.letters.push(this.createLetter(letters[i].toLocaleUpperCase(), x, y, i));
             }
         }
 
@@ -47,11 +47,11 @@ module states {
             return (letter === 'NY' || letter === 'L·L');
         }
 
-        createLetter(letter: string, x: number, y: number): Letter {
+        createLetter(letter: string, x: number, y: number, index: number): Letter {
             if (this.isSpecialLetter(letter)) {
-                return new Letter(this.game, x, y, letter, this.font2letters);
+                return new Letter(this.game, x, y, letter, this.font2letters, index, this);
             } else {
-                return new Letter(this.game, x, y, letter, this.font);
+                return new Letter(this.game, x, y, letter, this.font, index, this);
             }
         }
     }

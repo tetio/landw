@@ -10,10 +10,10 @@ module states {
         }
 
         create() {
-            var scpu = <Phaser.Plugin.SaveCPU>this.game.plugins.add(Phaser.Plugin.SaveCPU)
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
             this.game.physics.startSystem(Phaser.Physics.ARCADE);
+            var scpu = <Phaser.Plugin.SaveCPU>this.game.plugins.add(Phaser.Plugin.SaveCPU)
             this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.game.scale.pageAlignHorizontally = true;
             this.game.scale.pageAlignVertically = true;
