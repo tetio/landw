@@ -1,4 +1,6 @@
 /// <reference path="../lib/phaser.d.ts" />
+/// <reference path="../lib/SaveCPU.d.ts" />
+
 module states {
 
     export class BootState extends Phaser.State {
@@ -8,6 +10,7 @@ module states {
         }
 
         create() {
+            var scpu = <Phaser.Plugin.SaveCPU>this.game.plugins.add(Phaser.Plugin.SaveCPU)
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
             this.game.physics.startSystem(Phaser.Physics.ARCADE);
