@@ -7,7 +7,7 @@
 module states {
 
     export class PlayState extends Phaser.State {
-        background: Phaser.Sprite;
+        //background: Phaser.Sprite;
         music: Phaser.Sound;
         board: Board;
         bd: BusinessDelegate;
@@ -18,7 +18,8 @@ module states {
         }
 
         create() {
-            this.background = this.add.sprite(0, 0, "sky");
+            //this.background = this.add.sprite(0, 0, "sky");
+            this.game.stage.backgroundColor = '#222222'
             this.music = this.add.audio("vso", 1, false);
             //            this.music.play();
             this.bd = new BusinessDelegate();

@@ -54,5 +54,22 @@ module states {
                 return new Letter(this.game, x, y, letter, this.font, index, this);
             }
         }
+
+        isLetterInsideBoard(position: Phaser.Point): boolean {
+            return this.boardDim.contains(position.x, position.y);
+        }
+
+        isLetterInsideLetterRack(position: Phaser.Point): boolean {
+            return this.letterRack.dim.contains(position.x, position.y);
+        }
+
+        letterMoved(letter: Letter) {
+            if (this.isLetterInsideBoard(letter.position)) {
+                var idx = this.letterRack.removeLetter(letter);
+                letter.moveToBoard();
+            } else if (this.isLetterInsideLetterRack(letter.position)) {
+                letter.moveToRack();
+            }
+        }
     }
 }

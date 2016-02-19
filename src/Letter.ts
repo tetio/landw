@@ -6,10 +6,16 @@ module states {
         letter: string;
         index: number;
         board: Board;
-        dim: Phaser.Rectangle;
+        originalPosition: Phaser.Point;
+        normalStyle: Phaser.PhaserTextStyle;
+        rackStyle: Phaser.PhaserTextStyle;
+        rackIndex: number;
+
 
         constructor(game: Phaser.Game, x: number, y: number, letter: string, font: string, index: number, board: Board) {
             super(game, x, y, letter, { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450 });
+            this.normalStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#000000' };
+            this.rackStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#22A022' };
             this.letter = letter;
             this.font = font;
             this.index = index;
@@ -18,18 +24,41 @@ module states {
             this.input.enableDrag(true);
             this.events.onDragStop.add(this.onDragStop);
             this.game.add.existing(this);
-            this.dim = new Phaser.Rectangle(x, y, this.width, this.height);
-            console.log('letter dim: '+letter+' ('+this.dim.x+", "+this.dim.y+", "+this.dim.width+", "+this.dim.height+")");
-        }
-
-        moveInsideLetter(position: Phaser.Point): boolean {
-            return this.board.boardDim.contains(position.x, position.y);
+            this.originalPosition = new Phaser.Point(x, y);
+            this.rackIndex = -1;
+            console.log('letter position: ' + letter + ' (' + this.originalPosition.x + ", " + this.originalPosition.y + ")");
         }
 
         onDragStop(letter: Letter) {
-            if (letter.moveInsideLetter(letter.position)) {
-                letter.position = new Phaser.Point(letter.dim.x, letter.dim.y);
+            letter.board.letterMoved(letter);
+        }
+
+        isOnTheRack(): boolean {
+            return this.rackIndex >= 0;
+        }
+
+        isOnTheBoard(): boolean {
+            return this.rackIndex == -1;
+        }
+
+        changeStyle() {
+            if (this.isOnTheBoard) {
+                this.setStyle(this.normalStyle);
+            } else {
+                this.setStyle(this.rackStyle);
             }
+        }
+
+        moveToBoard() {
+            this.setStyle(this.normalStyle);
+            this.position = this.originalPosition.clone();
+            this.rackIndex = -1;
+        }
+
+        moveToRack() {
+            this.setStyle(this.rackStyle);
+            // TODO add letter to rack array
+            this.rackIndex = 0;
         }
     }
 }
