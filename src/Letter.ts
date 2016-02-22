@@ -13,10 +13,11 @@ module states {
 
 
         constructor(game: Phaser.Game, x: number, y: number, letter: string, font: string, index: number, board: Board) {
-            super(game, x, y, letter, { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450 });
-            this.normalStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#000000' };
+            super(game, x, y, letter);//, { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450 });
+            this.normalStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#222222' };
             this.rackStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#22A022' };
             this.letter = letter;
+            this.setStyle(this.normalStyle);
             this.font = font;
             this.index = index;
             this.board = board;

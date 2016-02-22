@@ -9,6 +9,7 @@ module states {
         letters: Letter[];
         constructor(game: Phaser.Game) {
             this.game = game;
+            this.letters = [];
         }
 
         setDim(dim: Phaser.Rectangle) {
