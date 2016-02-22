@@ -1,4 +1,5 @@
 /// <reference path="../lib/phaser.d.ts" />
+/// <reference path="../lib/underscore.d.ts" />
 /// <reference path="Letter.ts" />
 
 module states {
@@ -23,10 +24,10 @@ module states {
             return this.letters.length;
         }
 
-        findLetterPosition(letter: Letter): number {
-            return _.find(this.letters, function(aLetter: Letter) {
-                if (aLetter. === username) {
-                    return player;
+        findLetterPosition(letter: Letter) {
+            _.find(this.letters, function(aLetter: Letter) : number {
+                if (aLetter.getBounds().contains(letter.position.x, letter.position.y)) {
+                    return aLetter.rackIndex;
                 }
             });
         }
