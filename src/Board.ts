@@ -68,6 +68,7 @@ module states {
                 var idx = this.letterRack.removeLetter(letter);
                 letter.moveToBoard();
             } else if (this.isLetterInsideLetterRack(letter.position)) {
+                var idx = this.letterRack.addLetter(letter);
                 letter.moveToRack();
             }
         }
