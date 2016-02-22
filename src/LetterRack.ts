@@ -25,19 +25,29 @@ module states {
             return this.letters.length;
         }
 
-        findLetterPosition(letter: Letter) {
-            _.find(this.letters, function(aLetter: Letter) : number {
+        findLetterPosition(letter: Letter) : number {
+            var letterOnRack = _.find(this.letters, function(aLetter: Letter): number {
                 if (aLetter.getBounds().contains(letter.position.x, letter.position.y)) {
                     return aLetter.rackIndex;
                 }
             });
+            if (letterOnRack == undefined) {
+                return 0;
+            } else {
+                return letterOnRack.index;
+            }
+        }
+
+        recalculateLetterPossitions() {
+	       // TODO
         }
 
         addLetter(letter: Letter): number {
             // TODO find spot then insert letter
-            var idx = 0; // TODO
+            var idx = this.findLetterPosition(letter);
             letter.rackIndex = idx;
             this.letters.splice(idx, 0, letter);
+            this.recalculateLetterPossitions();
             return this.letters.length;
         }
     }
