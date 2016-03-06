@@ -63,16 +63,17 @@ module states {
             return this.letterRack.dim.contains(position.x, position.y);
         }
 
-        letterMoved(letter: Letter) {
-            if (this.isLetterInsideBoard(letter.position)) {
+        letterMoved(letter: Letter, point: Phaser.Point) {
+            if (this.isLetterInsideBoard(point)) {
                 var idx = this.letterRack.removeLetter(letter);
                 letter.moveToBoard();
-            } else if (this.isLetterInsideLetterRack(letter.position)) {
+                this.letterRack.recalculateLetterPossitions()
+            } else if (this.isLetterInsideLetterRack(point)) {
                 var idx: number;
                 if (letter.isOnTheRack()) {
-                    idx = this.letterRack.moveLetter(letter);
+                    idx = this.letterRack.moveLetter(letter, point);
                 } else {
-                    idx = this.letterRack.addLetter(letter);
+                    idx = this.letterRack.addLetter(letter, point);
                     letter.moveToRack();
                 }
             }

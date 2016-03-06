@@ -30,8 +30,8 @@ module states {
             console.log('letter position: ' + letter + ' (' + this.originalPosition.x + ", " + this.originalPosition.y + ")");
         }
 
-        onDragStop(letter: Letter) {
-            letter.board.letterMoved(letter);
+        onDragStop(letter: Letter, point: Phaser.Point) {
+            letter.board.letterMoved(letter, point);
         }
 
         isOnTheRack(): boolean {

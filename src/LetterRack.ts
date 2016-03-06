@@ -7,6 +7,7 @@ module states {
         game: Phaser.Game;
         dim: Phaser.Rectangle;
         letters: Letter[];
+        width: number;
 
         constructor(game: Phaser.Game) {
             this.game = game;
@@ -26,50 +27,52 @@ module states {
             return this.letters.length;
         }
 
-        findLetterPosition(letter: Letter): number {
-            // var letterOnRack = _.find(this.letters, function(aLetter: Letter): number {
-            //     if (aLetter.getBounds().contains(letter.position.x, letter.position.y)) {
-            //         return aLetter.rackIndex;
-            //     }
-            // });
-            var letterOnRack: number;
-            for (var i = 0; i < this.letters.length; i++) {
-                // if (this.letters[i].getBounds().contains(letter.position.x, letter.position.y)) {
-                    if (letter.position.x <= this.letters[i].position.x + this.letters[i].width/2) {
-                        letterOnRack = i;
-                        break;
-                    }
-                // }
-            }
-            if (letterOnRack == undefined) {
+        findLetterPosition(point: Phaser.Point): number {
+            var letterOnRack = _.find(this.letters, function(letter: Letter): Letter {
+                if (point.x <= letter.position.x + (letter.width / 2)) {
+                    return letter;
+                }
+            });
+            if (letterOnRack == undefined && this.letters.length == 0) {
+                return 0;
+            } else if (letterOnRack == undefined && this.letters.length > 0) {
                 return this.letters.length;
+            } else if (point.x >= this.width){
+                return this.letters.length;
+            } else {
+                return letterOnRack.rackIndex;
             }
         }
 
         recalculateLetterPossitions() {
             var x = 0;
+            var i = 0;
             var lb = this;
             _.forEach(this.letters, function(letter) {
                 letter.position = new Phaser.Point(x, lb.dim.y);
+                letter.rackIndex = i;
                 x += letter.width;
+                i++;
             });
+            this.width = x;
         }
 
-        addLetter(letter: Letter): number {
-            // TODO find spot then insert letter
-            var idx = this.findLetterPosition(letter);
-            letter.rackIndex = idx;
+        addLetter(letter: Letter, point: Phaser.Point): number {
+            let idx = this.findLetterPosition(point);
             this.letters.splice(idx, 0, letter);
             this.recalculateLetterPossitions();
             return this.letters.length;
         }
 
-        moveLetter(letter: Letter): number {
-            // TODO find spot then insert letter
-            let idx = this.findLetterPosition(letter);
-            this.letters.splice(letter.rackIndex, 1);
-            letter.rackIndex = idx;
-            this.letters.splice(idx, 0, letter);
+        moveLetter(letter: Letter, point: Phaser.Point): number {
+            let idx: number = this.findLetterPosition(point);
+            if (idx >= letter.rackIndex) {
+                this.letters.splice(idx, 0, letter);
+                this.letters.splice(letter.rackIndex, 1);
+            } else {
+                this.letters.splice(letter.rackIndex, 1);
+                this.letters.splice(idx, 0, letter);
+            }
             this.recalculateLetterPossitions();
             return this.letters.length;
         }
