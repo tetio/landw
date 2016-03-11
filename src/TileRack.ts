@@ -30,18 +30,18 @@ module states {
 
         findCharPosition(point: Phaser.Point): number {
             // var tileOnRack = _.find(this.tiles, function(tile: Tile): Tile {
-            //     if (point.x <= tile.position.x) { // && point.x < tile.position.x + tile.width ) {
+            //     if (point.x <= tile.position.x  + tile.width / 2) {
             //         return tile;
             //     }
             // });
             var tileOnRack: Tile;
             for (var i = 0; i < this.tiles.length; i++) {
-                if (i > 0 && point.x <= this.tiles[i].position.x
-                    && point.x >= this.tiles[i - 1].position.x + this.tiles[i-1].width / 2) {
+                if (i > 0 && point.x <= this.tiles[i].rackX
+                    && point.x >= this.tiles[i - 1].rackX + this.tiles[i-1].width / 2) {
                     tileOnRack = this.tiles[i];
                     break;
-                } else if (point.x <= this.tiles[i].position.x + this.tiles[i].width / 2
-                    && point.x >= this.tiles[i].position.x) {
+                } else if (point.x <= this.tiles[i].rackX + this.tiles[i].width / 2
+                    && point.x >= this.tiles[i].rackX) {
                     tileOnRack = this.tiles[i];
                     break;
                 }
@@ -68,6 +68,7 @@ module states {
             //     i++;
             // });
             for (var i = 0; i < this.tiles.length; i++) {
+                this.tiles[i].rackX = x;
                 this.tiles[i].position = new Phaser.Point(x, this.dim.y);
                 this.tiles[i].rackIndex = i;
                 x += this.tiles[i].width;

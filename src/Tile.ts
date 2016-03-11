@@ -10,6 +10,7 @@ module states {
         normalStyle: Phaser.PhaserTextStyle;
         rackStyle: Phaser.PhaserTextStyle;
         rackIndex: number;
+        rackX: number;
 
 
         constructor(game: Phaser.Game, x: number, y: number, character: string, font: string, index: number, board: Board) {

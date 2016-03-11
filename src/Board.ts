@@ -67,7 +67,7 @@ module states {
             if (this.isTileInsideBoard(point)) {
                 var idx = this.rack.removeChar(tile);
                 tile.moveToBoard();
-                this.rack.recalculateCharPossitions()
+                this.rack.recalculateTileRack()
             } else if (this.isTileInsideTileRack(point)) {
                 var idx: number;
                 if (tile.isOnTheRack()) {
