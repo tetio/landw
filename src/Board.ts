@@ -1,6 +1,6 @@
 /// <reference path="../lib/phaser.d.ts" />
-/// <reference path="Letter.ts" />
-/// <reference path="LetterRack.ts" />
+/// <reference path="Tile.ts" />
+/// <reference path="TileRack.ts" />
 module states {
 
     export class Board {
@@ -8,18 +8,18 @@ module states {
         game: Phaser.Game;
         row: number;
         column: number;
-        letters: Letter[];
+        chars: Tile[];
         font = 'bold 60pt Arial';
-        font2letters = 'bold 42pt Arial';
+        font2 = 'bold 42pt Arial';
         boardDim: Phaser.Rectangle;
-        letterRack: LetterRack;
+        rack: TileRack;
         test = false;
 
         constructor(game: Phaser.Game) {
             this.game = game;
-            this.letterRack = new LetterRack(this.game);
+            this.rack = new TileRack(this.game);
             this.calculateDims();
-            this.letters = [];
+            this.chars = [];
         }
 
         calculateDims() {
@@ -32,49 +32,49 @@ module states {
             }
             width = height;
             this.boardDim = new Phaser.Rectangle(0, 0, width, height);
-            this.letterRack.setDim(new Phaser.Rectangle(0, height, width, this.game.height / 3));
+            this.rack.setDim(new Phaser.Rectangle(0, height, width, this.game.height / 3));
         }
 
-        setLetters(letters: string[]) {
-            for (var i = 0; i < letters.length; i++) {
+        setTiles(chars: string[]) {
+            for (var i = 0; i < chars.length; i++) {
                 var x = (this.boardDim.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW) + (this.boardDim.width / this.TILES_PER_ROW) / 2;
                 var y = (this.boardDim.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
-                this.letters.push(this.createLetter(letters[i].toLocaleUpperCase(), x, y, i));
+                this.chars.push(this.createTile(chars[i].toLocaleUpperCase(), x, y, i));
             }
         }
 
-        isSpecialLetter(letter: string): boolean {
-            return (letter === 'NY' || letter === 'L·L');
+        isSpecialChar(char: string): boolean {
+            return (char === 'NY' || char === 'L·L');
         }
 
-        createLetter(letter: string, x: number, y: number, index: number): Letter {
-            if (this.isSpecialLetter(letter)) {
-                return new Letter(this.game, x, y, letter, this.font2letters, index, this);
+        createTile(char: string, x: number, y: number, index: number): Tile {
+            if (this.isSpecialChar(char)) {
+                return new Tile(this.game, x, y, char, this.font2, index, this);
             } else {
-                return new Letter(this.game, x, y, letter, this.font, index, this);
+                return new Tile(this.game, x, y, char, this.font, index, this);
             }
         }
 
-        isLetterInsideBoard(position: Phaser.Point): boolean {
+        isTileInsideBoard(position: Phaser.Point): boolean {
             return this.boardDim.contains(position.x, position.y);
         }
 
-        isLetterInsideLetterRack(position: Phaser.Point): boolean {
-            return this.letterRack.dim.contains(position.x, position.y);
+        isTileInsideTileRack(position: Phaser.Point): boolean {
+            return this.rack.dim.contains(position.x, position.y);
         }
 
-        letterMoved(letter: Letter, point: Phaser.Point) {
-            if (this.isLetterInsideBoard(point)) {
-                var idx = this.letterRack.removeLetter(letter);
-                letter.moveToBoard();
-                this.letterRack.recalculateLetterPossitions()
-            } else if (this.isLetterInsideLetterRack(point)) {
+        tileMoved(tile: Tile, point: Phaser.Point) {
+            if (this.isTileInsideBoard(point)) {
+                var idx = this.rack.removeChar(tile);
+                tile.moveToBoard();
+                this.rack.recalculateCharPossitions()
+            } else if (this.isTileInsideTileRack(point)) {
                 var idx: number;
-                if (letter.isOnTheRack()) {
-                    idx = this.letterRack.moveLetter(letter, point);
+                if (tile.isOnTheRack()) {
+                    idx = this.rack.moveTile(tile, point);
                 } else {
-                    idx = this.letterRack.addLetter(letter, point);
-                    letter.moveToRack();
+                    idx = this.rack.addTile(tile, point);
+                    tile.moveToRack();
                 }
             }
         }

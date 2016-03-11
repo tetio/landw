@@ -2,8 +2,8 @@
 /// <reference path="Board.ts" />
 
 module states {
-    export class Letter extends Phaser.Text {
-        letter: string;
+    export class Tile extends Phaser.Text {
+        character: string;
         index: number;
         board: Board;
         originalPosition: Phaser.Point;
@@ -12,11 +12,11 @@ module states {
         rackIndex: number;
 
 
-        constructor(game: Phaser.Game, x: number, y: number, letter: string, font: string, index: number, board: Board) {
-            super(game, x, y, letter);//, { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450 });
+        constructor(game: Phaser.Game, x: number, y: number, character: string, font: string, index: number, board: Board) {
+            super(game, x, y, character);//, { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450 });
             this.normalStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#222222' };
             this.rackStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#22A022' };
-            this.letter = letter;
+            this.character = character;
             this.setStyle(this.normalStyle);
             this.font = font;
             this.index = index;
@@ -27,11 +27,11 @@ module states {
             this.game.add.existing(this);
             this.originalPosition = new Phaser.Point(x, y);
             this.rackIndex = -1;
-            console.log('letter position: ' + letter + ' (' + this.originalPosition.x + ", " + this.originalPosition.y + ")");
+            console.log('letter position: ' + character + ' (' + this.originalPosition.x + ", " + this.originalPosition.y + ")");
         }
 
-        onDragStop(letter: Letter, point: Phaser.Point) {
-            letter.board.letterMoved(letter, point);
+        onDragStop(tile: Tile, point: Phaser.Point) {
+            tile.board.tileMoved(tile, point);
         }
 
         isOnTheRack(): boolean {
@@ -58,8 +58,6 @@ module states {
 
         moveToRack() {
             this.setStyle(this.rackStyle);
-            // TODO add letter to rack array
-            this.rackIndex = 0;
         }
     }
 }

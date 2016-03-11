@@ -43,7 +43,7 @@ module states {
         newTrainingGame(username: string, langage: string, ps: PlayState) {
             this.bd.createNewGame(username, 1, langage, function(aGame: Game) {
                 ps.lwGame = aGame;
-                ps.board.setLetters(aGame.board);
+                ps.board.setTiles(aGame.board);
             });
         }
 

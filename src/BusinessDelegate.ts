@@ -26,7 +26,23 @@ module states {
             });
         }
 
-        findWord(word:string, next: (Word) => void) {
+        validateWord(username: string, gameId: string, word: string, next: (number) => void) {
+            var data = {
+                username: username,
+                gameid: gameId,
+                word: word
+            };
+            $.ajax({
+                type: "post",
+                url: "http://localhost:6061/addWord",
+                data: "usermane=" + username + "&gameid=" + gameId + "&word=" + word,
+                success: result => {
+                    next(result);
+                }
+            });
+        }
+
+        findWord(word: string, next: (Word) => void) {
             $.getJSON("http://localhost:6061/word/"+word, aWord => {
                 console.log('aWord: ' + aWord.word);
                 next(aWord);

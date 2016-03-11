@@ -9,6 +9,9 @@ module states {
             this.load.setPreloadSprite(this.preloadBar);
             this.load.image("titlepage", "assets/titlepage.jpg");
             this.load.image("sky", "assets/sky.png");
+            this.load.image("buttonSendUp", "assets/buttonSendUp.png");
+            this.load.image("buttonSendDown", "assets/buttonSendDown.png");
+
             this.load.audio("vso", "assets/demo-vso.mp3");
 
         }
