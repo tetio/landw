@@ -8,15 +8,18 @@ module states {
         board: Board;
         originalPosition: Phaser.Point;
         normalStyle: Phaser.PhaserTextStyle;
-        rackStyle: Phaser.PhaserTextStyle;
+//        rackStyle: Phaser.PhaserTextStyle;
         rackIndex: number;
         rackX: number;
 
 
-        constructor(game: Phaser.Game, x: number, y: number, character: string, font: string, index: number, board: Board) {
+        constructor(game: Phaser.Game, x: number, y: number, character: string,
+            font: string, index: number, board: Board) {
             super(game, x, y, character);//, { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450 });
-            this.normalStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#222222' };
-            this.rackStyle = { font: font, fill: 'white', align: 'left', wordWrap: true, wordWrapWidth: 450, backgroundColor: '#22A022' };
+            this.normalStyle = { font: font, fontSize: 64, fill: 'white', align: 'left',
+                wordWrap: true, wordWrapWidth: 450, backgroundColor: '#000000' };
+            // this.rackStyle = { font: font, fill: 'white', align: 'left',
+            //     wordWrap: true, wordWrapWidth: 450, backgroundColor: '#000000' };
             this.character = character;
             this.setStyle(this.normalStyle);
             this.font = font;
@@ -28,7 +31,6 @@ module states {
             this.game.add.existing(this);
             this.originalPosition = new Phaser.Point(x, y);
             this.rackIndex = -1;
-            console.log('letter position: ' + character + ' (' + this.originalPosition.x + ", " + this.originalPosition.y + ")");
         }
 
         onDragStop(tile: Tile, point: Phaser.Point) {
@@ -44,11 +46,11 @@ module states {
         }
 
         changeStyle() {
-            if (this.isOnTheBoard) {
-                this.setStyle(this.normalStyle);
-            } else {
-                this.setStyle(this.rackStyle);
-            }
+            // if (this.isOnTheBoard) {
+            //     this.setStyle(this.normalStyle);
+            // } else {
+            //     this.setStyle(this.rackStyle);
+            // }
         }
 
         moveToBoard() {
@@ -58,7 +60,7 @@ module states {
         }
 
         moveToRack() {
-            this.setStyle(this.rackStyle);
+            // this.setStyle(this.rackStyle);
         }
     }
 }

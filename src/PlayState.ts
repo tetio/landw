@@ -1,7 +1,7 @@
 /// <reference path="../lib/phaser.d.ts" />
 /// <reference path="Board.ts" />
 /// <reference path="Game.ts" />
-/// <reference path="BusinessDelegate.ts" />
+/// <reference path="ApiDelegate.ts" />
 /// <reference path="Word.ts" />
 
 module states {
@@ -10,7 +10,7 @@ module states {
         //background: Phaser.Sprite;
         music: Phaser.Sound;
         board: Board;
-        bd: BusinessDelegate;
+        bd: ApiDelegate;
         lwGame: states.Game;
 
         constructor() {
@@ -22,7 +22,7 @@ module states {
             this.game.stage.backgroundColor = '#222222'
             this.music = this.add.audio("vso", 1, false);
             //            this.music.play();
-            this.bd = new BusinessDelegate();
+            this.bd = new ApiDelegate();
             this.board = new Board(this.game);
             this.newTrainingGame("tetio", "CA", this);
         }

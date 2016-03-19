@@ -9,8 +9,9 @@ module states {
         row: number;
         column: number;
         chars: Tile[];
-        font = 'bold 60pt Arial';
-        font2 = 'bold 42pt Arial';
+        //font = 'bold 60pt Arial';
+        font = 'montserratregular';//'60px Montserrat';
+        font2 = '32pt montserratregular';
         boardDim: Phaser.Rectangle;
         rack: TileRack;
         test = false;

@@ -8,7 +8,7 @@ module states {
         dim: Phaser.Rectangle;
         tiles: Tile[];
         width: number;
-        sendButton: Phaser.Button;
+        buttonSend: Phaser.Button;
 
         constructor(game: Phaser.Game) {
             this.game = game;
@@ -17,6 +17,7 @@ module states {
 
         setDim(dim: Phaser.Rectangle) {
             this.dim = dim;
+            this.buttonSend = this.game.add.button(this.dim.width - 48, this.dim.y, 'buttonSend', this.sendButtonCallback, this, 2, 1, 0);
         }
 
         removeChar(tile: Tile): number {
@@ -96,6 +97,10 @@ module states {
             }
             this.recalculateTileRack();
             return this.tiles.length;
+        }
+
+        sendButtonCallback() {
+            console.log("clicked send button");
         }
     }
 }
