@@ -9,8 +9,10 @@ module states {
         tiles: Tile[];
         width: number;
         buttonSend: Phaser.Button;
+        parent: Board;
 
-        constructor(game: Phaser.Game) {
+        constructor(game: Phaser.Game, parent: Board) {
+            this.parent = parent;
             this.game = game;
             this.tiles = [];
         }
@@ -38,7 +40,7 @@ module states {
             var tileOnRack: Tile;
             for (var i = 0; i < this.tiles.length; i++) {
                 if (i > 0 && point.x <= this.tiles[i].rackX
-                    && point.x >= this.tiles[i - 1].rackX + this.tiles[i-1].width / 2) {
+                    && point.x >= this.tiles[i - 1].rackX + this.tiles[i - 1].width / 2) {
                     tileOnRack = this.tiles[i];
                     break;
                 } else if (point.x <= this.tiles[i].rackX + this.tiles[i].width / 2
@@ -100,7 +102,30 @@ module states {
         }
 
         sendButtonCallback() {
-            console.log("clicked send button");
+            var tr = this;
+            this.parent.api.addWord(this.parent.api.username, this.parent.api.gameId, this.rack2word(), function(isValid: number) {
+                // todo
+                if (isValid == 1) {
+                    tr.parent.words++;
+                    tr.parent.points += tr.tiles.length;
+                    for (var i = tr.tiles.length-1; i >= 0; i--) {
+                        tr.tiles[i].setStyle(tr.tiles[i].normalStyle);
+                        tr.tiles[i].position = tr.tiles[i].originalPosition.clone();
+                        tr.tiles[i].rackIndex = -1;
+                        tr.tiles.splice(i, 1);
+                    };
+                    tr.parent.scoreTableText.text = tr.parent.scoreTableContents();
+                }
+            });
+
+        }
+
+        rack2word(): string {
+            var word = '';
+            _.forEach(this.tiles, function(tile) {
+                word = word + tile.character;
+            });
+            return word;
         }
     }
 }

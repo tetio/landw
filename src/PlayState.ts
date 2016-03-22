@@ -10,7 +10,7 @@ module states {
         //background: Phaser.Sprite;
         music: Phaser.Sound;
         board: Board;
-        bd: ApiDelegate;
+        api: ApiDelegate;
         lwGame: states.Game;
 
         constructor() {
@@ -19,11 +19,11 @@ module states {
 
         create() {
             //this.background = this.add.sprite(0, 0, "sky");
-            this.game.stage.backgroundColor = '#222222'
+            this.game.stage.backgroundColor = '#000000'
             this.music = this.add.audio("vso", 1, false);
             //            this.music.play();
-            this.bd = new ApiDelegate();
-            this.board = new Board(this.game);
+            this.api = new ApiDelegate();
+            this.board = new Board(this.game, this.api);
             this.newTrainingGame("tetio", "CA", this);
         }
 
@@ -35,14 +35,15 @@ module states {
 
         checkWord(word: string, next: (Word) => void) {
             var result: boolean;
-            this.bd.findWord(word, function(word: Word) {
+            this.api.findWord(word, function(word: Word) {
                 next(word);
             });
         }
 
         newTrainingGame(username: string, langage: string, ps: PlayState) {
-            this.bd.createNewGame(username, 1, langage, function(aGame: Game) {
+            this.api.createNewGame(username, 1, langage, function(aGame: Game) {
                 ps.lwGame = aGame;
+                ps.api.gameId = aGame._id;
                 ps.board.setTiles(aGame.board);
             });
         }

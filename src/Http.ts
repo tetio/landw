@@ -20,7 +20,8 @@ module states {
         }
 
         send(method: String, uri: String) {
-            this.objHttpReq.open(method, this.url+uri, this.mode);
+            this.objHttpReq.open(method, this.url + uri, this.mode);
+            this.objHttpReq.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             this.objHttpReq.send(this.payload);
         }
 

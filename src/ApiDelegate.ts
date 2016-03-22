@@ -6,13 +6,18 @@
 module states {
 
     export class ApiDelegate extends Http {
+        username: string;
+        gameId: string;
 
         constructor() {
             // TODO: Read from a properties file depending on environment
-            super('http://localhost:6061/', true);
+            var host = window.location.hostname;
+            console.log('host:' + host);
+            super('http://'+host+':6061/', true);
         }
 
         createNewGame(username: string, numPlayers: number, language: string = 'CA', next: (Game) => void) {
+            this.username = username;
             let payload = {
                 username: username,
                 numPlayers: numPlayers,
@@ -23,7 +28,7 @@ module states {
             this.send('POST', 'game');
         }
 
-        validateWord(username: string, gameId: string, word: string, next: (number) => void) {
+        addWord(username: string, gameId: string, word: string, next: (number) => void) {
             let payload = {
                 username: username,
                 gameid: gameId,
@@ -31,7 +36,7 @@ module states {
             };
             this.setPayload(JSON.stringify(payload));
             this.setNext(next);
-            this.send('GET', 'word');
+            this.send('POST', 'addWord');
         }
 
         findWord(word: string, next: (Word) => void) {

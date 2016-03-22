@@ -13,14 +13,27 @@ module states {
         font = 'montserratregular';//'60px Montserrat';
         font2 = '32pt montserratregular';
         boardDim: Phaser.Rectangle;
+        scoreTableDim: Phaser.Rectangle;
         rack: TileRack;
         test = false;
+        api: ApiDelegate;
+        points: number;
+        words: number;
+        scoreTableText: Phaser.Text;
 
-        constructor(game: Phaser.Game) {
+        constructor(game: Phaser.Game, api: ApiDelegate) {
+            this.api = api;
             this.game = game;
-            this.rack = new TileRack(this.game);
+            this.rack = new TileRack(this.game, this);
             this.calculateDims();
             this.chars = [];
+            this.points = 0;
+            this.words = 0;
+            this.scoreTableText = new Phaser.Text(game, 20, this.scoreTableDim.height/2, this.scoreTableContents());
+            this.scoreTableText.setStyle({ font: 'Arial', fontSize: 18, fill: 'white', align: 'center',
+                wordWrap: true, wordWrapWidth: 450, backgroundColor: '#000000' });
+            this.scoreTableText.position.x = this.game.width / 2 - this.scoreTableText.width / 2;
+            this.game.add.existing(this.scoreTableText);
         }
 
         calculateDims() {
@@ -32,14 +45,15 @@ module states {
                 height = this.game.height * 2 / 3;
             }
             width = height;
-            this.boardDim = new Phaser.Rectangle(0, 0, width, height);
-            this.rack.setDim(new Phaser.Rectangle(0, height, width, this.game.height / 3));
+            this.scoreTableDim = new Phaser.Rectangle(0, 0, width, height*0.2);
+            this.boardDim = new Phaser.Rectangle(0, height*0.2, width, height*0.6);
+            this.rack.setDim(new Phaser.Rectangle(0, height*0.8, width, height*0.2));
         }
 
         setTiles(chars: string[]) {
             for (var i = 0; i < chars.length; i++) {
                 var x = (this.boardDim.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW) + (this.boardDim.width / this.TILES_PER_ROW) / 2;
-                var y = (this.boardDim.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
+                var y = this.boardDim.y +   (this.boardDim.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
                 this.chars.push(this.createTile(chars[i].toLocaleUpperCase(), x, y, i));
             }
         }
@@ -65,11 +79,7 @@ module states {
         }
 
         tileMoved(tile: Tile, point: Phaser.Point) {
-            if (this.isTileInsideBoard(point)) {
-                var idx = this.rack.removeChar(tile);
-                tile.moveToBoard();
-                this.rack.recalculateTileRack()
-            } else if (this.isTileInsideTileRack(point)) {
+            if (this.isTileInsideTileRack(point)) {
                 var idx: number;
                 if (tile.isOnTheRack()) {
                     idx = this.rack.moveTile(tile, point);
@@ -77,7 +87,15 @@ module states {
                     idx = this.rack.addTile(tile, point);
                     tile.moveToRack();
                 }
+            } else {
+                var idx = this.rack.removeChar(tile);
+                tile.moveToBoard();
+                this.rack.recalculateTileRack()
             }
+        }
+
+        scoreTableContents() {
+            return 'Punts: ' + this.points +"\t\t Paraules: "+this.words;
         }
     }
 }
