@@ -27,10 +27,15 @@ module states {
             this.board = board;
             this.inputEnabled = true;
             this.input.enableDrag(true);
+            this.events.onDragStart.add(this.onDragStart);
             this.events.onDragStop.add(this.onDragStop);
             this.game.add.existing(this);
             this.originalPosition = new Phaser.Point(x, y);
             this.rackIndex = -1;
+        }
+
+        onDragStart(tile: Tile, point: Phaser.Point) {
+            tile.bringToTop();
         }
 
         onDragStop(tile: Tile, point: Phaser.Point) {

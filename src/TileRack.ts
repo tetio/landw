@@ -20,6 +20,7 @@ module states {
         setDim(dim: Phaser.Rectangle) {
             this.dim = dim;
             this.buttonSend = this.game.add.button(this.dim.width - 48, this.dim.y, 'buttonSend', this.sendButtonCallback, this, 2, 1, 0);
+            this.buttonSend.position.y = this.dim.y + (this.dim.height - this.buttonSend.height)/2
         }
 
         removeChar(tile: Tile): number {
@@ -72,9 +73,10 @@ module states {
             // });
             for (var i = 0; i < this.tiles.length; i++) {
                 this.tiles[i].rackX = x;
-                this.tiles[i].position = new Phaser.Point(x, this.dim.y);
+                this.tiles[i].position = new Phaser.Point(x, this.dim.y + (this.dim.height - this.buttonSend.height)/2);
                 this.tiles[i].rackIndex = i;
                 x += this.tiles[i].width;
+
             }
             this.width = x;
         }
