@@ -10,7 +10,9 @@ module states {
         column: number;
         chars: Tile[];
         //font = 'bold 60pt Arial';
-        font = 'Verdana';//'60px Montserrat';
+        font = 'Verdana';
+        fontSize = 60;
+        fontSmallSize = 60;
         font2 = 'Verdana';
         boardDim: Phaser.Rectangle;
         scoreTableDim: Phaser.Rectangle;
@@ -88,9 +90,10 @@ module states {
                     tile.moveToRack();
                 }
             } else {
-                var idx = this.rack.removeChar(tile);
-                tile.moveToBoard();
-                this.rack.recalculateTileRack()
+                // var idx = this.rack.removeChar(tile);
+                // tile.moveToBoard();
+                // this.rack.recalculateTileRack()
+                this.rack.removeTile(tile);
             }
         }
 

@@ -20,7 +20,7 @@ module states {
         setDim(dim: Phaser.Rectangle) {
             this.dim = dim;
             this.buttonSend = this.game.add.button(this.dim.width - 48, this.dim.y, 'buttonSend', this.sendButtonCallback, this, 2, 1, 0);
-            this.buttonSend.position.y = this.dim.y + (this.dim.height - this.buttonSend.height)/2
+            this.buttonSend.position.y = this.dim.y + (this.dim.height - this.buttonSend.height) / 2
         }
 
         removeChar(tile: Tile): number {
@@ -61,7 +61,7 @@ module states {
             }
         }
 
-        recalculateTileRack() {
+        recalculateTileRack(recalculateWith: number = 0) {
             var x = 0;
             // var i = 0;
             // var rack = this;
@@ -71,9 +71,13 @@ module states {
             //     x += tile.width;
             //     i++;
             // });
+            if (recalculateWith != 0) {
+                this.parent.fontSmallSize += 12 * recalculateWith;
+            }
             for (var i = 0; i < this.tiles.length; i++) {
+                this.tiles[i].fontSize = this.parent.fontSmallSize;
                 this.tiles[i].rackX = x;
-                this.tiles[i].position = new Phaser.Point(x, this.dim.y + (this.dim.height - this.buttonSend.height)/2);
+                this.tiles[i].position = new Phaser.Point(x, this.dim.y + (this.dim.height - this.buttonSend.height) / 2);
                 this.tiles[i].rackIndex = i;
                 x += this.tiles[i].width;
 
@@ -82,11 +86,25 @@ module states {
         }
 
         addTile(tile: Tile, point: Phaser.Point): number {
+            var recalculateWith = 0;
+            if (this.width + tile.width > this.dim.width - 48) {
+                recalculateWith = -1;
+            }
             let idx = this.findCharPosition(point);
             tile.rackIndex = idx;
             this.tiles.splice(idx, 0, tile);
-            this.recalculateTileRack();
+            this.recalculateTileRack(recalculateWith);
             return this.tiles.length;
+        }
+
+        removeTile(tile: Tile) {
+            var idx = this.removeChar(tile);
+            tile.moveToBoard();
+            var recalculateWith = 0;
+            if (this.width  < this.dim.width - 48 - 72) {
+                recalculateWith = 1;
+            }
+            this.recalculateTileRack(recalculateWith)
         }
 
         moveTile(tile: Tile, point: Phaser.Point): number {
@@ -110,7 +128,7 @@ module states {
                 if (isValid == 1) {
                     tr.parent.words++;
                     tr.parent.points += tr.tiles.length;
-                    for (var i = tr.tiles.length-1; i >= 0; i--) {
+                    for (var i = tr.tiles.length - 1; i >= 0; i--) {
                         tr.tiles[i].setStyle(tr.tiles[i].normalStyle);
                         tr.tiles[i].position = tr.tiles[i].originalPosition.clone();
                         tr.tiles[i].rackIndex = -1;
