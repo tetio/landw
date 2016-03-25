@@ -19,8 +19,10 @@ module states {
 
         setDim(dim: Phaser.Rectangle) {
             this.dim = dim;
-            this.buttonSend = this.game.add.button(this.dim.width - 48, this.dim.y, 'buttonSend', this.sendButtonCallback, this, 2, 1, 0);
-            this.buttonSend.position.y = this.dim.y + (this.dim.height - this.buttonSend.height) / 2
+            this.buttonSend = this.game.add.button(-1000, this.dim.y, 'buttonSend', this.sendButtonCallback, this, 2, 1, 0);
+            this.buttonSend.position.y = this.dim.y + (this.dim.height - this.buttonSend.height) / 2;
+            this.buttonSend.position.x = this.dim.width - this.buttonSend.width;
+
         }
 
         removeChar(tile: Tile): number {
@@ -87,7 +89,7 @@ module states {
 
         addTile(tile: Tile, point: Phaser.Point): number {
             var recalculateWith = 0;
-            if (this.width + tile.width > this.dim.width - 48) {
+            if (this.width + tile.width > this.dim.width - this.buttonSend.width) {
                 recalculateWith = -1;
             }
             let idx = this.findCharPosition(point);
@@ -101,7 +103,7 @@ module states {
             var idx = this.removeChar(tile);
             tile.moveToBoard();
             var recalculateWith = 0;
-            if (this.width  < this.dim.width - 48 - 72) {
+            if (this.width  < this.dim.width - this.buttonSend.width - 72 && this.parent.fontSize > this.parent.fontSmallSize) {
                 recalculateWith = 1;
             }
             this.recalculateTileRack(recalculateWith)

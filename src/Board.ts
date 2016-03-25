@@ -44,7 +44,7 @@ module states {
             if (this.game.width > this.game.height) {
                 height = this.game.height;
             } else {
-                height = this.game.height * 2 / 3;
+                height = this.game.width;
             }
             width = height;
             this.scoreTableDim = new Phaser.Rectangle(0, 0, width, height*0.1);
