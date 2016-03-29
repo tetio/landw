@@ -1,5 +1,6 @@
 /// <reference path="../lib/phaser.d.ts" />
 /// <reference path="Board.ts" />
+/// <reference path="BoardTimer.ts" />
 /// <reference path="Game.ts" />
 /// <reference path="ApiDelegate.ts" />
 /// <reference path="Word.ts" />
@@ -23,7 +24,7 @@ module states {
             this.music = this.add.audio("vso", 1, false);
             //            this.music.play();
             this.api = new ApiDelegate();
-            this.board = new Board(this.game, this.api);
+            this.board = new BoardTimer(this.game, this.api);
             this.newTrainingGame("tetio", "CA", this);
         }
 
@@ -31,6 +32,7 @@ module states {
             // if (this.hero.body.velocity.x != 0 || this.hero.body.velocity.y != 0) {
             //     console.log("Hero(" + this.hero.body.position.x + ", " + this.hero.body.position.y + ")");
             // }
+            this.board.update();
         }
 
         checkWord(word: string, next: (Word) => void) {

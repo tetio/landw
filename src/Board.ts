@@ -22,6 +22,7 @@ module states {
         points: number;
         words: number;
         scoreTableText: Phaser.Text;
+        onGoingGame: boolean;
 
         constructor(game: Phaser.Game, api: ApiDelegate) {
             this.api = api;
@@ -31,11 +32,12 @@ module states {
             this.chars = [];
             this.points = 0;
             this.words = 0;
-            this.scoreTableText = new Phaser.Text(game, 0, this.scoreTableDim.height/2, this.scoreTableContents());
+            this.scoreTableText = new Phaser.Text(game, 0, this.scoreTableDim.height/3, this.scoreTableContents());
             this.scoreTableText.setStyle({ font: this.font, fontSize: 24, fill: 'white', align: 'center',
                 wordWrap: true, wordWrapWidth: 450, backgroundColor: '#000000' });
             this.scoreTableText.position.x = this.game.width / 2 - this.scoreTableText.width / 2;
             this.game.add.existing(this.scoreTableText);
+            this.onGoingGame = true;
         }
 
         calculateDims() {
@@ -97,8 +99,12 @@ module states {
             }
         }
 
-        scoreTableContents() {
-            return 'Punts: ' + this.points +"\t\t Paraules: "+this.words;
+        scoreTableContents(): string {
+            return 'Punts: ' + this.points +"\t Paraules: "+this.words;
+        }
+
+        update() {
+            // Nothing to do
         }
     }
 }

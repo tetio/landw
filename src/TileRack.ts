@@ -124,6 +124,9 @@ module states {
         }
 
         sendButtonCallback() {
+            if (!this.parent.onGoingGame) {
+                return;
+            }
             var tr = this;
             this.parent.api.addWord(this.parent.api.username, this.parent.api.gameId, this.rack2word(), function(isValid: number) {
                 // todo
