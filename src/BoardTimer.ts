@@ -27,7 +27,7 @@ module states {
             // Convert seconds (s) to a nicely formatted and padded time string
             let m = Math.floor(s / 60);
             let minutes = "0" + m;
-            let seconds = "0" + (s - m*60);
+            let seconds = "0" + (s - m * 60);
             return minutes.substr(-2) + ":" + seconds.substr(-2);
         }
 
