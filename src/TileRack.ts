@@ -150,10 +150,12 @@ module states {
                 if (isValid == 1) {
                     tr.parent.words++;
                     tr.parent.points += tr.tiles.length;
-                    for (var i = tr.tiles.length - 1; i >= 0; i--) {
-                        tr.tiles[i].moveToBoard();
-                        tr.tiles.splice(i, 1);
-                    };
+                    //for (var i = tr.tiles.length - 1; i >= 0; i--) {
+                    _.each(tr.tiles, function(tile: Tile) {
+                        tile.moveToBoard();
+                        //};
+                    });
+                    tr.tiles = [];
                     tr.parent.scoreTableText.text = tr.parent.scoreTableContents();
                 }
             });
