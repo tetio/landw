@@ -20,7 +20,7 @@ module states {
 
         create() {
             //this.background = this.add.sprite(0, 0, "sky");
-            this.game.stage.backgroundColor = '#000000'
+            this.game.stage.backgroundColor = 'black'
             this.music = this.add.audio("vso", 1, false);
             //            this.music.play();
             this.api = new ApiDelegate();

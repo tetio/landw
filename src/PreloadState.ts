@@ -15,6 +15,7 @@ module states {
             this.load.setPreloadSprite(this.preloadBar);
             this.load.image("titlepage", "assets/titlepage.jpg");
             this.load.image("sky", "assets/sky.png");
+            this.load.image("blackDot", "assets/blackDot.png");
             this.load.spritesheet("buttonSend", "assets/buttonSend.png", 72, 72);
             this.load.spritesheet("buttonPlay", "assets/buttonPlay.png", 128, 72);
             this.load.audio("vso", "assets/demo-vso.mp3");

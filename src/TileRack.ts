@@ -7,7 +7,7 @@ module states {
         game: Phaser.Game;
         dim: Phaser.Rectangle;
         tiles: Tile[];
-        width: number;
+        currentWidth: number;
         buttonSend: Phaser.Button;
         parent: Board;
 
@@ -56,7 +56,7 @@ module states {
                 return 0;
             } else if (tileOnRack == undefined && this.tiles.length > 0) {
                 return this.tiles.length;
-            } else if (point.x >= this.width) {
+            } else if (point.x >= this.currentWidth) {
                 return this.tiles.length;
             } else {
                 return tileOnRack.rackIndex;
@@ -73,23 +73,39 @@ module states {
             //     x += tile.width;
             //     i++;
             // });
+            var scaleFactor = 0;
             if (recalculateWith != 0) {
                 this.parent.fontSmallSize += 12 * recalculateWith;
+                if (recalculateWith == -1) {
+                    scaleFactor = this.tiles[0].scaleFactor * 0.60;
+                } else {
+                    scaleFactor = this.tiles[0].scaleFactor * 1.20;
+                }
+
             }
             for (var i = 0; i < this.tiles.length; i++) {
-                this.tiles[i].fontSize = this.parent.fontSmallSize;
+                if (scaleFactor != 0) {
+                    this.tiles[i].scaleFactor = scaleFactor;
+                    this.tiles[i].scale = new Phaser.Point(scaleFactor, scaleFactor);
+                }
+                this.tiles[i].text.fontSize = this.parent.fontSmallSize;
                 this.tiles[i].rackX = x;
                 this.tiles[i].position = new Phaser.Point(x, this.dim.y + (this.dim.height - this.buttonSend.height) / 2);
                 this.tiles[i].rackIndex = i;
                 x += this.tiles[i].width;
 
             }
-            this.width = x;
+            this.currentWidth = x;
         }
 
         addTile(tile: Tile, point: Phaser.Point): number {
             var recalculateWith = 0;
-            if (this.width + tile.width > this.dim.width - this.buttonSend.width) {
+            if (this.tiles.length != 0) {
+                tile.scaleFactor = this.tiles[0].scaleFactor;
+                tile.scale = new Phaser.Point(tile.scaleFactor, tile.scaleFactor);
+            }
+
+            if (this.currentWidth + tile.width > this.dim.width - this.buttonSend.width) {
                 recalculateWith = -1;
             }
             let idx = this.findCharPosition(point);
@@ -101,9 +117,10 @@ module states {
 
         removeTile(tile: Tile) {
             var idx = this.removeChar(tile);
+            this.currentWidth -= tile.width;
             tile.moveToBoard();
             var recalculateWith = 0;
-            if (this.width  < this.dim.width - this.buttonSend.width - 72 && this.parent.fontSize > this.parent.fontSmallSize) {
+            if (this.currentWidth  < this.dim.width - this.buttonSend.width && this.parent.fontSize > this.parent.fontSmallSize) {
                 recalculateWith = 1;
             }
             this.recalculateTileRack(recalculateWith)
@@ -134,9 +151,7 @@ module states {
                     tr.parent.words++;
                     tr.parent.points += tr.tiles.length;
                     for (var i = tr.tiles.length - 1; i >= 0; i--) {
-                        tr.tiles[i].setStyle(tr.tiles[i].normalStyle);
-                        tr.tiles[i].position = tr.tiles[i].originalPosition.clone();
-                        tr.tiles[i].rackIndex = -1;
+                        tr.tiles[i].moveToBoard();
                         tr.tiles.splice(i, 1);
                     };
                     tr.parent.scoreTableText.text = tr.parent.scoreTableContents();
