@@ -61,7 +61,7 @@ module states {
 
         setTiles(chars: string[]) {
             for (var i = 0; i < chars.length; i++) {
-                var x = (this.boardDim.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW);// + (this.boardDim.width / this.TILES_PER_ROW) / 2;
+                var x = 20+(this.boardDim.width / this.TILES_PER_ROW) * (i % this.TILES_PER_ROW);// + (this.boardDim.width / this.TILES_PER_ROW) / 2;
                 var y = this.boardDim.y  + (this.boardDim.height / this.TILES_PER_ROW) * Math.floor((i / this.TILES_PER_ROW));// - (this.width / this.TILES_PER_ROW) / 2;
                 this.chars.push(this.createTile(chars[i].toLocaleUpperCase(), x, y, i));
             }
