@@ -39,12 +39,15 @@ module states {
             this.send('POST', 'addWord');
         }
 
-        findWord(word: string, next: (Word) => void) {
-            // $.getJSON("http://localhost:6061/word/"+word, aWord => {
-            //     console.log('aWord: ' + aWord.word);
-            //     next(aWord);
-            // });
+        joinGame(username: string, numPlayers: number = 2, language: string = 'CA', next: (game: Game) => void) {
+            let payload = {
+                username: username,
+                numplayers: numPlayers,
+                language: language
+            };
+            this.setPayload(JSON.stringify(payload));
+            this.setNext(next);
+            this.send('POST', 'joinGame');
         }
-
     }
 }

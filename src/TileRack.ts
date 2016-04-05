@@ -37,7 +37,7 @@ module states {
         findCharPosition(point: Phaser.Point): number {
             var previousTile: Tile;
             let x = point.x;
-            var tileOnRack: Tile = _.find(this.tiles, function(tile: Tile): Tile {
+            var tileOnRack = _.find(this.tiles, function(tile: Tile): Tile {
                 if ((previousTile && (x <= tile.rackX && x >= previousTile.rackX + previousTile.width / 2) || (x <= tile.rackX + tile.width / 2 && x >= tile.rackX))
                     || (x <= tile.rackX + tile.width / 2)) {
                     return tile;
@@ -57,7 +57,7 @@ module states {
 
         recalculateTileRack(recalculateWith: number = 0) {
             var x = 0;
-            let tr = this;
+            let self = this;
             var scaleFactor = 0;
             if (recalculateWith != 0) {
                 this.parent.fontSmallSize += 12 * recalculateWith;
@@ -72,9 +72,9 @@ module states {
                     tile.scaleFactor = scaleFactor;
                     tile.scale = new Phaser.Point(scaleFactor, scaleFactor);
                 }
-                tile.text.fontSize = tr.parent.fontSmallSize;
+                tile.text.fontSize = self.parent.fontSmallSize;
                 tile.rackX = x;
-                tile.position = new Phaser.Point(x, tr.dim.y + (tr.dim.height - tr.buttonSend.height) / 2);
+                tile.position = new Phaser.Point(x, self.dim.y + (self.dim.height - self.buttonSend.height) / 2);
                 tile.rackIndex = idx;
                 x += tile.width;
             });
@@ -127,24 +127,24 @@ module states {
             if (!this.parent.onGoingGame) {
                 return;
             }
-            let tr = this;
+            let self = this;
             this.parent.api.addWord(this.parent.api.username, this.parent.api.gameId, this.rack2word(), function(isValid: number) {
                 if (isValid == 1) {
-                    tr.parent.words++;
-                    tr.parent.points += tr.tiles.length;
-                    _.each(tr.tiles, function(tile: Tile) {
+                    self.parent.words++;
+                    self.parent.points += self.tiles.length;
+                    _.each(self.tiles, function(tile: Tile) {
                         tile.moveToBoard();
                     });
-                    tr.tiles = [];
-                    tr.parent.scoreTableText.text = tr.parent.scoreTableContents();
+                    self.tiles = [];
+                    self.parent.scoreTableText.text = self.parent.scoreTableContents();
                 }
             });
 
         }
 
         rack2word(): string {
-            return _.reduce(this.tiles, function(result: string, tile: Tile): string {
-                return result + tile.character;
+            return _.reduce(this.tiles, function(word: string, tile: Tile): string {
+                return word + tile.character;
             }, '');
         }
     }

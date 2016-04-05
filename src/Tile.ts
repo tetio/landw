@@ -75,13 +75,20 @@ module states {
         moveToBoard() {
             this.text.fontSize = this.board.fontSize;
             this.scaleFactor = this.board.scaleFactor;
-            this.scale = new Phaser.Point( this.scaleFactor,  this.scaleFactor);
+            this.scale = new Phaser.Point(this.scaleFactor, this.scaleFactor);
             this.position = this.originalPosition.clone();
             this.rackIndex = -1;
         }
 
         moveToRack() {
             // this.setStyle(this.rackStyle);
+        }
+
+        insideSameTile(point: Phaser.Point) {
+            if (this.getBounds().contains(point.x, point.y)) {
+                return true;
+            }
+            return false;
         }
     }
 }

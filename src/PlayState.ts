@@ -35,19 +35,16 @@ module states {
             this.board.update();
         }
 
-        checkWord(word: string, next: (Word) => void) {
-            var result: boolean;
-            this.api.findWord(word, function(word: Word) {
-                next(word);
-            });
-        }
-
-        newTrainingGame(username: string, langage: string, ps: PlayState) {
-            this.api.createNewGame(username, 1, langage, function(aGame: Game) {
+        newTrainingGame(username: string, language: string, ps: PlayState) {
+            this.api.createNewGame(username, 1, language, function(aGame: Game) {
                 ps.lwGame = aGame;
                 ps.api.gameId = aGame._id;
                 ps.board.setTiles(aGame.board);
             });
+        }
+
+        joinGame(username: string, ) {
+
         }
 
     }

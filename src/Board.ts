@@ -11,7 +11,8 @@ module states {
         chars: Tile[];
         //font = 'bold 60pt Arial';
         font = 'Verdana';
-        fontSize = 64;
+        fontSize = 96;
+        fontScoreSize = 32;
         fontSmallSize = 64;
         font2 = 'Verdana';
         boardDim: Phaser.Rectangle;
@@ -35,7 +36,7 @@ module states {
             this.words = 0;
 
             this.scoreTableText = new Phaser.Text(game, 0, this.scoreTableDim.height/4, this.scoreTableContents());
-            this.scoreTableText.setStyle({font: this.font, fontSize: 24, fill: 'white', align: 'center',
+            this.scoreTableText.setStyle({font: this.font, fontSize: this.fontScoreSize, fill: 'white', align: 'center',
                 wordWrap: true, wordWrapWidth: this.game.width, backgroundColor: '#000000' });
             this.scoreTableText.position.x = 0; //this.game.width / 2 - this.scoreTableText.width / 2;
             this.game.add.existing(this.scoreTableText);
@@ -96,6 +97,10 @@ module states {
                     idx = this.rack.addTile(tile, point);
                     tile.moveToRack();
                 }
+            } else if (tile.insideSameTile(point) && tile.isOnTheBoard()) {
+                point.x += 1000; // to force to be rightest char on rack
+                idx = this.rack.addTile(tile, point);
+                tile.moveToRack();
             } else {
                 // var idx = this.rack.removeChar(tile);
                 // tile.moveToBoard();
