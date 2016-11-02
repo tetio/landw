@@ -7,7 +7,7 @@
 
 module states {
 
-    export class PlayState extends Phaser.State {
+    export class TrainingGameState extends Phaser.State {
         //background: Phaser.Sprite;
         music: Phaser.Sound;
         board: Board;
@@ -25,27 +25,22 @@ module states {
             //            this.music.play();
             this.api = new ApiDelegate();
             this.board = new BoardTimer(this.game, this.api);
-            this.newTrainingGame("tetio", "CA", this);
+            this.createNewGame("tetio", "CA", this);
         }
 
         update() {
-            // if (this.hero.body.velocity.x != 0 || this.hero.body.velocity.y != 0) {
-            //     console.log("Hero(" + this.hero.body.position.x + ", " + this.hero.body.position.y + ")");
-            // }
             this.board.update();
         }
 
-        newTrainingGame(username: string, language: string, ps: PlayState) {
-            this.api.createNewGame(username, 1, language, function(aGame: Game) {
-                ps.lwGame = aGame;
-                ps.api.gameId = aGame._id;
-                ps.board.setTiles(aGame.board);
+
+        createNewGame(username: string, language: string, gs: TrainingGameState) {
+            this.api.createNewGame(username, 2, language, (aGame: Game) => {
+                gs.lwGame = aGame;
+                gs.api.gameId = aGame._id;
+                gs.board.setTiles(aGame.board);
             });
-        }
+        }        
 
-        joinGame(username: string, ) {
-
-        }
 
     }
 }

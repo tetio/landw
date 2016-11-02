@@ -1,7 +1,6 @@
 /// <reference path="Word.ts" />
 /// <reference path="Game.ts" />
 /// <reference path="Http.ts" />
-/// <reference path="PlayState.ts" />
 
 module states {
 
@@ -13,14 +12,14 @@ module states {
             // TODO: Read from a properties file depending on environment
             var host = window.location.hostname;
             console.log('host:' + host);
-            super('http://'+host+':6061/', true);
+            super('http://'+host+':6061/api/', true);
         }
 
-        createNewGame(username: string, numPlayers: number, language: string = 'CA', next: (Game) => void) {
+        createNewGame(username: string, maxPlayers: number, language: string = 'CA', next: (Game) => void) {
             this.username = username;
             let payload = {
                 username: username,
-                numPlayers: numPlayers,
+                maxPlayers: maxPlayers,
                 language: language,
             };
             this.setPayload(JSON.stringify(payload));
@@ -31,12 +30,12 @@ module states {
         addWord(username: string, gameId: string, word: string, next: (number) => void) {
             let payload = {
                 username: username,
-                gameid: gameId,
+                gameId: gameId,
                 word: word
             };
             this.setPayload(JSON.stringify(payload));
             this.setNext(next);
-            this.send('POST', 'addWord');
+            this.send('POST', 'game/addWord');
         }
 
         joinGame(username: string, numPlayers: number = 2, language: string = 'CA', next: (game: Game) => void) {
@@ -47,7 +46,16 @@ module states {
             };
             this.setPayload(JSON.stringify(payload));
             this.setNext(next);
-            this.send('POST', 'joinGame');
+            this.send('POST', 'game/joinGame');
         }
+
+        findGameById(id: string, next: (Game) => void) {
+            let payload = {
+                id: id
+            };
+            this.setPayload(JSON.stringify(payload));
+            this.setNext(next);
+            this.send('POST', 'game/findById');
+        }        
     }
 }

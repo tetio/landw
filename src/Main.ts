@@ -2,7 +2,8 @@
 /// <reference path="BootState.ts" />
 /// <reference path="PreloadState.ts" />
 /// <reference path="TitleState.ts" />
-/// <reference path="PlayState.ts" />
+/// <reference path="TrainingGameState.ts" />
+/// <reference path="GameState.ts" />
 /// <reference path="../lib/SaveCPU.d.ts" />
 
 class Game extends Phaser.Game {
@@ -12,7 +13,8 @@ class Game extends Phaser.Game {
         this.state.add("boot", new states.BootState());
         this.state.add("preload", new states.PreloadState());
         this.state.add("title", new states.TitleState());
-        this.state.add("play", new states.PlayState());
+        this.state.add("trainingGame", new states.TrainingGameState());
+        this.state.add("game", new states.GameState());
         this.state.start("boot");
     }
 }

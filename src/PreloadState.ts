@@ -17,7 +17,8 @@ module states {
             this.load.image("sky", "assets/sky.png");
             this.load.image("blackDot", "assets/blackDot.png");
             this.load.spritesheet("buttonSend", "assets/buttonSend.png", 72, 72);
-            this.load.spritesheet("buttonPlay", "assets/buttonPlay.png", 128, 72);
+            this.load.spritesheet("buttonGame", "assets/buttonGame.png", 128, 72);
+            this.load.spritesheet("buttonTrainingGame", "assets/buttonTrainingGame.png", 128, 72);
             this.load.audio("vso", "assets/demo-vso.mp3");
         }
 
