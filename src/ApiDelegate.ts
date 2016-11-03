@@ -15,7 +15,7 @@ module states {
             super('http://'+host+':6061/api/', true);
         }
 
-        createNewGame(username: string, maxPlayers: number, language: string = 'CA', next: (Game) => void) {
+        createNewGame(username: string, maxPlayers: number, language: string = 'CA', next: (Game, isOk) => void) {
             this.username = username;
             let payload = {
                 username: username,
@@ -27,7 +27,7 @@ module states {
             this.send('POST', 'game');
         }
 
-        addWord(username: string, gameId: string, word: string, next: (number) => void) {
+        addWord(username: string, gameId: string, word: string, next: (number, isOk) => void) {
             let payload = {
                 username: username,
                 gameId: gameId,
@@ -38,7 +38,7 @@ module states {
             this.send('POST', 'game/addWord');
         }
 
-        joinGame(username: string, numPlayers: number = 2, language: string = 'CA', next: (game: Game) => void) {
+        joinGame(username: string, numPlayers: number = 2, language: string = 'CA', next: (game: Game, isOk) => void) {
             let payload = {
                 username: username,
                 numplayers: numPlayers,
@@ -49,7 +49,7 @@ module states {
             this.send('POST', 'game/joinGame');
         }
 
-        findGameById(id: string, next: (Game) => void) {
+        findGameById(id: string, next: (Game, isOk) => void) {
             let payload = {
                 id: id
             };

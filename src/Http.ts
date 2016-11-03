@@ -8,7 +8,7 @@ module states {
         mode: boolean;
         //response: string;
         objHttpReq: any;
-        next: (any) => void;
+        next: (any, bookean) => void;
         apiVersion: string;
 
         constructor(url: string, mode: boolean) {
@@ -20,6 +20,9 @@ module states {
         }
 
         send(method: String, uri: String) {
+            this.objHttpReq = new XMLHttpRequest();
+            this.objHttpReq.mode = this.mode;
+            this.objHttpReq.onreadystatechange = () => this.OnRStateChange();
             this.objHttpReq.open(method, this.url + uri, this.mode);
             this.objHttpReq.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             this.objHttpReq.send(this.payload);
@@ -29,7 +32,7 @@ module states {
             this.payload = payload;
         }
 
-        setNext(next: (any) => void) {
+        setNext(next: (any, boolean) => void) {
             this.next = next;
         }
 
@@ -37,11 +40,13 @@ module states {
             if (this.objHttpReq.readyState == 4 && this.objHttpReq.status == 200) {
                 if (this.objHttpReq.mode == false) {
                     // alert(this.objHttpReq.responseText);
-                    this.next(this.objHttpReq.responseText);
+                    this.next(this.objHttpReq.responseText, true);
                 } else {
                     // alert(this.objHttpReq.responseText);
-                    this.next(JSON.parse(this.objHttpReq.responseText));
+                    this.next(JSON.parse(this.objHttpReq.responseText), true);
                 }
+            } else if (this.objHttpReq.status == 404) {
+                this.next(null, false);
             }
         }
     }
