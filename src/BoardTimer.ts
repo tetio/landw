@@ -1,3 +1,5 @@
+/// <reference path="GameResult.ts" />
+
 module states {
     export class BoardTimer extends Board {
         timer: Phaser.Timer;
@@ -13,6 +15,7 @@ module states {
         endTimer() {
             this.onGoingGame = false;
             this.timer.stop();
+            this.endGameResult();
         }
 
         scoreTableContents(): string {
@@ -40,6 +43,30 @@ module states {
                 scoreText += "\t Temps: 0";
             }
             this.scoreTableText.text = scoreText;
+
+
+            if (this.gameResult) {
+                var resultText = "";
+                if (this.gameResult.winner === "") {
+                    resultText = "Has empatat";
+                } else {
+                    resultText = (this.gameResult.winner === this.api.username)? "Has guanyat!" : "Has perdut.";
+                }
+                
+                this.gameResultText.text = resultText;
+            }            
+        }
+
+        endGameResult() {
+            this.api.gameResult((gameResult: GameResult, isOk: boolean) => {
+                if (isOk) {
+                    this.gameResult = gameResult;
+                    this.gameResultText.visible = true;
+                    _.forEach(this.chars, function (char) {
+                        char.x = -10000;
+                    });
+                }
+            });
         }
 
     }

@@ -47,6 +47,7 @@ module states {
                 if (game !== null && isOk) {
                     tgs.lwGame = aGame;
                     tgs.api.gameId = aGame._id;
+                    tgs.api.username = username;
                     tgs.board = new BoardTimer(this.game, this.api);
                     tgs.board.setTiles(aGame.board);
                 } else {

@@ -1,6 +1,7 @@
 /// <reference path="../lib/phaser.d.ts" />
 /// <reference path="Tile.ts" />
 /// <reference path="TileRack.ts" />
+/// <reference path="GameResult.ts" />
 module states {
 
     export class Board {
@@ -23,8 +24,11 @@ module states {
         points: number;
         words: number;
         scoreTableText: Phaser.Text;
+        gameResultText: Phaser.Text;
         onGoingGame: boolean;
         scaleFactor: number;
+        gameResult: GameResult;
+
 
         constructor(game: Phaser.Game, api: ApiDelegate) {
             this.api = api;
@@ -38,8 +42,14 @@ module states {
             this.scoreTableText = new Phaser.Text(game, 0, this.scoreTableDim.height/4, this.scoreTableContents());
             this.scoreTableText.setStyle({font: this.font, fontSize: this.fontScoreSize, fill: 'white', align: 'center',
                 wordWrap: true, wordWrapWidth: this.game.width, backgroundColor: '#000000' });
-            this.scoreTableText.position.x = 0; //this.game.width / 2 - this.scoreTableText.width / 2;
+            this.scoreTableText.position.x = 0; 
+            this.gameResultText = new Phaser.Text(game, 0, this.boardDim.halfHeight, "NO MESSAGE!!!");
+            this.gameResultText.setStyle({font: this.font, fontSize: this.fontScoreSize, fill: 'white', align: 'center',
+                wordWrap: true, wordWrapWidth: this.game.width, backgroundColor: '#000000' });
+            this.gameResultText.position.x = 0; 
+            this.gameResultText.visible = false;
             this.game.add.existing(this.scoreTableText);
+            this.game.add.existing(this.gameResultText);
             this.onGoingGame = true;
         }
 
@@ -114,10 +124,9 @@ module states {
         }
 
         update() {
-            // Nothing to do
-            _.forEach(this.chars, function(char) {
-                char.update();
-            });
+            // _.forEach(this.chars, function(char) {
+            //     char.update();
+            // });
         }
     }
 }

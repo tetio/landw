@@ -1,6 +1,7 @@
 /// <reference path="Word.ts" />
 /// <reference path="Game.ts" />
 /// <reference path="Http.ts" />
+/// <reference path="GameResult.ts" />
 
 module states {
 
@@ -48,6 +49,17 @@ module states {
             this.setNext(next);
             this.send('POST', 'game/joinGame');
         }
+
+        gameResult(next: (result: GameResult, isOk: boolean) => void) {
+            let payload = {
+                username: this.username,
+                gameid: this.gameId
+            };
+            this.setPayload(JSON.stringify(payload));
+            this.setNext(next);
+            this.send('POST', 'game/result');
+        }
+
 
         findGameById(id: string, next: (Game, isOk) => void) {
             let payload = {
